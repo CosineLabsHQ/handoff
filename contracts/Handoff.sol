@@ -326,6 +326,7 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
     /**
      * @notice Safely transfers native currency (e.g., ETH, POL, BNB, AVAX) using a low-level call.
      * @dev Performs a raw `call` with value to forward all available gas. Reverts if the call fails.
+     *      See Solmate's SafeTransferLib: https://github.com/transmissions11/solmate/blob/89365b880c4f3c786bdd453d4b8e8fe410344a69/src/utils/SafeTransferLib.sol#L14
      *
      * @param to The recipient of the native currency.
      * @param amount The amount of native currency to transfer, denominated in wei.
