@@ -5,11 +5,11 @@ import "../../../lib/permit2/src/interfaces/IPermit2.sol";
 
 interface IHandoff {
     /// @notice Emits an event when transaction has been completed.
-    event Completed(address indexed user, address indexed provider, address indexed token, uint256 receivedAmount, bytes32 transactionId);
+    event Completed(address indexed user, address indexed provider, address indexed token, uint256 amount, bytes32 transactionId);
     /// @notice Emits an event when native or native transfer has been received or transfered.
     event NativeReceived(address indexed sender, uint256 amount);
-    event NativeTransferred(address indexed recipient, uint256 receivedAmount);
-    event TokenTransferred(address indexed recipient, address indexed token, uint256 receivedAmount);
+    event NativeTransferred(address indexed recipient, uint256 amount);
+    event TokenTransferred(address indexed recipient, address indexed token, uint256 amount);
 
     /// @notice Emits an event when user is blacklisted or unblacklisted.
     event Blacklisted(address indexed user);
@@ -26,8 +26,7 @@ interface IHandoff {
      * @param user Address that initiated the offramp transaction.
      * @param provider The offramp provider address. 
      * @param token ERC20 token used in the offramp transaction.
-     * @param requestedAmount Amount that was requested.
-     * @param receivedAmount Actual amount received (after fees, rebase or deflate).
+     * @param amount Actual amount.
      * @param exists Tracks if the offramp transaction exists to prevent duplicates.
      */
     struct OfframpTransaction {
@@ -35,8 +34,7 @@ interface IHandoff {
         address user;
         address provider;
         address token;
-        uint256 requestedAmount;
-        uint256 receivedAmount;
+        uint256 amount;
         bool exists;
     }
 

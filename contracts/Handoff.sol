@@ -74,7 +74,18 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
     ) external whenNotPaused nonReentrant onlyRelayer {
         require(!blacklistRegistry[_request.data.owner], "user is blacklisted");
         require(_recoverSignerFromEIP2612Request(_request, _signature) == _request.data.owner, "invalid signature");
-        // ...
+        require(_request.data.token != address(0), "token cannot be zero address");
+        require(_request.provider != address(0), "provider cannot be zero address");
+        require(_request.data.value > 0, "amount must be greater than zero");
+        require(_request.data.spender == address(this), "spender must equals to this contract");
+        require(_request.data.owner != _request.provider, "signer cannot be an offramp provider");
+        bytes32 transactionId = _namespaceTx(_request.transactionId, _request.data.owner);
+        require(!transactionRegistry[_request.data.owner][transactionId].exists, "transaction already exists");
+        _safePermit(_request.data.token, _request.data.owner, _request.data.spender, _request.data.value, _request.data.deadline, _request.data.v, _request.data.r, _request.data.s);
+        _safeTransferFrom(_request.data.token, _request.data.owner, _request.provider, _request.data.value);
+        transactionRegistry[_request.data.owner][transactionId] = IHandoff.OfframpTransaction(transactionId, _request.data.owner, _request.provider, _request.data.token, _request.data.value, true);
+        volumeRegistry[_request.data.token] += _request.data.value;
+        emit IHandoff.Completed(_request.data.owner, _request.provider, _request.data.token, _request.data.value, transactionId);
     }
 
     /**
@@ -91,7 +102,18 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
     ) external whenNotPaused nonReentrant onlyRelayer {
         require(!blacklistRegistry[_request.data.owner], "user is blacklisted");
         require(_recoverSignerFromPermit2Request(_request, _signature) == _request.data.owner, "invalid signature");
-        // ...
+        require(_request.data.permit.details.token != address(0), "token cannot be zero address");
+        require(_request.provider != address(0), "provider cannot be zero address");
+        require(_request.data.permit.details.amount > 0, "amount must be greater than zero");
+        require(_request.data.permit.spender == address(this), "spender must equals to this contract");
+        require(_request.data.owner != _request.provider, "signer cannot be an offramp provider");
+        bytes32 transactionId = _namespaceTx(_request.transactionId, _request.data.owner);
+        require(!transactionRegistry[_request.data.owner][transactionId].exists, "transaction already exists");
+        _safePermit2(_request.data.owner, _request.data.permit, _request.data.signature);
+        permit2.transferFrom(_request.data.owner, _request.provider, _request.data.permit.details.amount, _request.data.permit.details.token);
+        transactionRegistry[_request.data.owner][transactionId] = IHandoff.OfframpTransaction(transactionId, _request.data.owner, _request.provider, _request.data.permit.details.token, _request.data.permit.details.amount, true);
+        volumeRegistry[_request.data.permit.details.token] += _request.data.permit.details.amount;
+        emit IHandoff.Completed(_request.data.owner, _request.provider, _request.data.permit.details.token, _request.data.permit.details.amount, transactionId);
     }
   
     /**
@@ -106,9 +128,9 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
         address _recipient,
         uint256 _amount
     ) external nonReentrant onlyOwner {
-        require(_recipient != address(0), "Recipient cannot be zero address");
-        require(_amount > 0, "Amount must be greater than zero");
-        require(address(this).balance >= _amount, "Insufficient native balance");
+        require(_recipient != address(0), "recipient cannot be zero address");
+        require(_amount > 0, "amount must be greater than zero");
+        require(address(this).balance >= _amount, "insufficient native balance");
         _safeNativeTransfer(_recipient, _amount);
         emit IHandoff.NativeTransferred(_recipient, _amount);
     }
@@ -127,9 +149,10 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
         address _recipient,
         uint256 _amount
     ) external nonReentrant onlyOwner {
-        require(_recipient != address(0), "Recipient cannot be zero address");
-        require(_amount > 0, "Amount must be greater than zero");
-        require(IERC20(_token).balanceOf(address(this)) >= _amount, "Insufficient token balance");
+        require(_token != address(0), "token cannot be zero address");
+        require(_recipient != address(0), "recipient cannot be zero address");
+        require(_amount > 0, "amount must be greater than zero");
+        require(IERC20(_token).balanceOf(address(this)) >= _amount, "insufficient token balance");
         _safeTransfer(_token, _recipient, _amount);
         emit IHandoff.TokenTransferred(_recipient, _token, _amount);
     }
@@ -201,6 +224,7 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
     function blacklist(address[] calldata _users) external onlyOwner {
         for (uint256 i = 0; i < _users.length; i++) {
             address user = _users[i];
+            require(user != address(0), "user cannot be address zero");
             if (!blacklistRegistry[user]) {
                 blacklistRegistry[user] = true;
                 emit IHandoff.Blacklisted(user);
@@ -215,6 +239,7 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
      * @param _user The address to remove from the blacklist.
      */
     function unBlacklist(address _user) external onlyOwner {
+        require(_user != address(0), "user cannot be address zero");
         blacklistRegistry[_user] = false;
         emit IHandoff.UnBlacklisted(_user);
     }
