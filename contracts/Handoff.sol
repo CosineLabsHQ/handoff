@@ -14,7 +14,7 @@ import "./utils/interfaces/IHandoff.sol";
 
 /**
  * @title Handoff
- * @notice Handoff lets users sell crypto without paying gas, delivering a frictionless user experience (UX) powered by EIP-2612 Permit and Permit2 standards without requiring prior on-chain approvals.
+ * @notice Handoff is a gasless offramp protocol that enables users to sell tokens without paying gas fees, powered by EIP-2612 and Permit2 standards without requiring prior on-chain approvals.
  * @dev Inherits from Ownable for access control, Pausable for emergency stops, ReentrancyGuard to prevent reentrant calls, and EIP712/{ECDSA-recover} for request verification.
  * 
  * @custom:company Cosine Labs Inc.
@@ -251,7 +251,7 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
      * @dev Emits a NativeReceived event when native currency is deposited.
      */
     receive() external payable {
-        emit NativeReceived(msg.sender, msg.value);
+        emit IHandoff.NativeReceived(msg.sender, msg.value);
     }
 
     /**
