@@ -73,6 +73,7 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
         bytes calldata _signature
     ) external whenNotPaused nonReentrant onlyRelayer {
         require(!blacklistRegistry[_request.data.owner], "user is blacklisted");
+        require(!blacklistRegistry[_request.provider], "provider is blacklisted");
         require(_recoverSignerFromEIP2612Request(_request, _signature) == _request.data.owner, "invalid signature");
         require(_request.data.token != address(0), "token cannot be zero address");
         require(_request.provider != address(0), "provider cannot be zero address");
@@ -101,6 +102,7 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
         bytes calldata _signature
     ) external whenNotPaused nonReentrant onlyRelayer {
         require(!blacklistRegistry[_request.data.owner], "user is blacklisted");
+        require(!blacklistRegistry[_request.provider], "provider is blacklisted");
         require(_recoverSignerFromPermit2Request(_request, _signature) == _request.data.owner, "invalid signature");
         require(_request.data.permit.details.token != address(0), "token cannot be zero address");
         require(_request.provider != address(0), "provider cannot be zero address");
