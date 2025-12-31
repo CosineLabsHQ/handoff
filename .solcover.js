@@ -1,4 +1,4 @@
 module.exports = {
-  skipFiles: ["mocks"],
-  istanbulReporter: ["html", "lcov", "text", "json-summary"],
+  skipFiles: ['utils/mocks'],
+  istanbulReporter: ['html', 'lcov', 'text', 'json-summary']
 };

@@ -5,11 +5,11 @@ import "../../../lib/permit2/src/interfaces/IPermit2.sol";
 
 interface IHandoff {
     /// @notice Emits an event when transaction has been completed.
-    event Completed(address indexed user, address indexed provider, address indexed token, uint256 amount, bytes32 transactionId);
+    event Completed(address indexed token, address indexed user, address indexed provider, uint256 amount, bytes32 transactionId);
     /// @notice Emits an event when native or native transfer has been received or transfered.
     event NativeReceived(address indexed sender, uint256 amount);
     event NativeTransferred(address indexed recipient, uint256 amount);
-    event TokenTransferred(address indexed recipient, address indexed token, uint256 amount);
+    event TokenTransferred(address indexed token, address indexed recipient, uint256 amount);
 
     /// @notice Emits an event when user is blacklisted or unblacklisted.
     event Blacklisted(address indexed user);

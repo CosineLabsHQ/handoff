@@ -1,8 +1,7 @@
 import { ethers } from 'hardhat';
 
 export const deployFixture = async () => {
-  const [owner1, relayer1, relayer2, owner2, recipient1, recipient2, user1, user2, attacker] =
-    await ethers.getSigners();
+  const [owner1, relayer1, relayer2, owner2, provider1, user1, user2, attacker] = await ethers.getSigners();
 
   // mocks
   const MockERC20 = await ethers.getContractFactory('MockERC20');
@@ -29,6 +28,11 @@ export const deployFixture = async () => {
   await token3.mint(user2.address, ethers.parseUnits('100000', 18));
   await token4.mint(user2.address, ethers.parseUnits('100000', 18));
 
+  await token1.mint(provider1.address, ethers.parseUnits('100000', 18));
+  await token2.mint(provider1.address, ethers.parseUnits('100000', 18));
+  await token3.mint(provider1.address, ethers.parseUnits('100000', 18));
+  await token4.mint(provider1.address, ethers.parseUnits('100000', 18));
+
   const relayers = [relayer1.address];
 
   // deploy handoff
@@ -40,8 +44,7 @@ export const deployFixture = async () => {
     owner2,
     relayer1,
     relayer2,
-    recipient1,
-    recipient2,
+    provider1,
     user1,
     user2,
     attacker,

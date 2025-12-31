@@ -86,7 +86,7 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
         _safeTransferFrom(_request.data.token, _request.data.owner, _request.provider, _request.data.value);
         transactionRegistry[_request.data.owner][transactionId] = IHandoff.OfframpTransaction(transactionId, _request.data.owner, _request.provider, _request.data.token, _request.data.value, true);
         volumeRegistry[_request.data.token] += _request.data.value;
-        emit IHandoff.Completed(_request.data.owner, _request.provider, _request.data.token, _request.data.value, transactionId);
+        emit IHandoff.Completed(_request.data.token, _request.data.owner, _request.provider, _request.data.value, transactionId);
     }
 
     /**
@@ -115,7 +115,7 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
         permit2.transferFrom(_request.data.owner, _request.provider, _request.data.permit.details.amount, _request.data.permit.details.token);
         transactionRegistry[_request.data.owner][transactionId] = IHandoff.OfframpTransaction(transactionId, _request.data.owner, _request.provider, _request.data.permit.details.token, _request.data.permit.details.amount, true);
         volumeRegistry[_request.data.permit.details.token] += _request.data.permit.details.amount;
-        emit IHandoff.Completed(_request.data.owner, _request.provider, _request.data.permit.details.token, _request.data.permit.details.amount, transactionId);
+        emit IHandoff.Completed(_request.data.permit.details.token, _request.data.owner, _request.provider, _request.data.permit.details.amount, transactionId);
     }
   
     /**
@@ -156,7 +156,7 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
         require(_amount > 0, "amount must be greater than zero");
         require(IERC20(_token).balanceOf(address(this)) >= _amount, "insufficient token balance");
         _safeTransfer(_token, _recipient, _amount);
-        emit IHandoff.TokenTransferred(_recipient, _token, _amount);
+        emit IHandoff.TokenTransferred(_token, _recipient, _amount);
     }
 
     /**
