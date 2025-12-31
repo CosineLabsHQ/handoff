@@ -24,12 +24,12 @@ abstract contract Permit2Request is Request  {
     /**
      * @notice The EIP712 type hash for the entire Permit2Request structure.
      * @dev Matches the format required to recreate the off-chain signed message.
-     */
+     */ 
     bytes32 private constant PERMIT2REQUEST_TYPEHASH = keccak256(
         "Permit2Request(Permit2 data,address provider,bytes32 transactionId)"
         "Permit2(address owner,PermitSingle permit,bytes signature)"
-        "PermitSingle(PermitDetails details,address spender,uint256 sigDeadline)"
         "PermitDetails(address token,uint160 amount,uint48 expiration,uint48 nonce)"
+        "PermitSingle(PermitDetails details,address spender,uint256 sigDeadline)"
     );
 
     /**
@@ -38,8 +38,8 @@ abstract contract Permit2Request is Request  {
      */
     bytes32 private constant PERMIT2_TYPEHASH = keccak256(
         "Permit2(address owner,PermitSingle permit,bytes signature)"
-        "PermitSingle(PermitDetails details,address spender,uint256 sigDeadline)"
         "PermitDetails(address token,uint160 amount,uint48 expiration,uint48 nonce)"
+        "PermitSingle(PermitDetails details,address spender,uint256 sigDeadline)"
     );
 
     /**
