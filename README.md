@@ -1,5 +1,10 @@
 # Handoff
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Build](https://raw.githubusercontent.com/CosineLabsHQ/handoff/build-badge/badges/build.svg)](https://github.com/CosineLabsHQ/handoff/actions)
+[![Test Coverage](https://raw.githubusercontent.com/CosineLabsHQ/handoff/coverage-badge/badges/coverage.svg)](https://github.com/CosineLabsHQ/handoff/actions)
+[![CI Status](https://raw.githubusercontent.com/CosineLabsHQ/handoff/ci-badge/badges/ci.svg)](https://github.com/CosineLabsHQ/handoff/actions)
+
 Handoff is a gasless offramp protocol that enables users to sell tokens without paying gas fees, powered by EIP-2612 and Permit2 standards.
 
 ## Overview
