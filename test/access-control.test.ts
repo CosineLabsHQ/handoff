@@ -40,7 +40,7 @@ describe('Access Control', function () {
 
     it('transferNative/transferToken', async function () {
       const { handoff, user1, user2, token1 } = await loadFixture(deployFixture);
-      const amount = ethers.parseUnits('20', 18);
+      const amount = ethers.parseUnits('100', 18);
       await expect(handoff.connect(user1).transferNative(user2.address, amount)).to.be.revertedWithCustomError(
         handoff,
         'OwnableUnauthorizedAccount'
