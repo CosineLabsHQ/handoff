@@ -62,6 +62,13 @@ constructor(
 )
 ```
 
+## Acknowledgments
+
+- Smart contracts: [Solidity](https://soliditylang.org)
+- Permit standards: [EIP-2612](https://eips.ethereum.org/EIPS/eip-2612), [Permit2](https://github.com/Uniswap/permit2)
+- Request signing: [EIP-712](https://eips.ethereum.org/EIPS/eip-712)
+- Relayer infrastructure: [Openzeppelin Relayer](https://github.com/OpenZeppelin/openzeppelin-relayer)
+
 ## License
 
 MIT License - Copyright (c) 2025 Cosine Labs Inc.
