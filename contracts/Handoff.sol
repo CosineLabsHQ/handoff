@@ -287,8 +287,8 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
      * @dev First attempts to call `permit()` to set the allowance via signature.
      *      If it fails (e.g., due to front-running or already executed permit), checks if the 
      *      allowance is already sufficient. Reverts only if both the permit call and allowance check fail.
-     *      See TrustlessPermit: https://github.com/trust1995/trustlessPermit
-     *      See Note: https://www.trust-security.xyz/post/permission-denied
+     *      See TrustlessPermit: https://web.archive.org/web/20260131112546/https://github.com/trust1995/trustlessPermit
+     *      See Note: https://web.archive.org/web/20250925135159/https://www.trust-security.xyz/post/permission-denied
      * 
      * @param token The ERC20 token contract implementing the permit function.
      * @param owner The address granting the allowance.
@@ -326,7 +326,7 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
      * @dev First attempts to call `permit2.permit()` to set the allowance via signature.
      *      If it fails (e.g., due to front-running or already executed permit), checks if the 
      *      allowance is already sufficient. Reverts only if both the permit call and allowance check fail.
-     *      See OpenZeppelin Audit Note: https://blog.openzeppelin.com/uniswap-v4-periphery-and-universal-router-audit#permit2-signatures-could-be-front-run-to-temporarily-prevent-execution
+     *      See OpenZeppelin Audit Note: https://web.archive.org/web/20241108140737/https://blog.openzeppelin.com/uniswap-v4-periphery-and-universal-router-audit#permit2-signatures-could-be-front-run-to-temporarily-prevent-execution
      * 
      * @param owner The address granting the allowance.
      * @param permitData The Permit2 permit structure containing token, spender, amount, expiration, and nonce.
@@ -353,8 +353,7 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
     /**
      * @notice Safely transfers native currency (e.g., ETH, POL, BNB, AVAX) using a low-level call.
      * @dev Performs a raw `call` with value to forward all available gas. Reverts if the call fails.
-     *      See Solmate's SafeTransferLib: https://github.com/transmissions11/solmate/blob/89365b880c4f3c786bdd453d4b8e8fe410344a69/src/utils/SafeTransferLib.sol#L14
-     *
+     *      See Solmate's SafeTransferLib: https://web.archive.org/web/20260131111608/https://github.com/transmissions11/solmate/blob/89365b880c4f3c786bdd453d4b8e8fe410344a69/src/utils/SafeTransferLib.sol#L14
      * @param to The recipient of the native currency.
      * @param amount The amount of native currency to transfer, denominated in wei.
      */
@@ -373,7 +372,7 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
      *      Constructs the calldata manually and uses a low-level `call` for gas efficiency.
      *      This method ensures compatibility with a wide range of ERC-20 tokens, including 
      *      non-standard ones like USDT, which do not return any data on success.
-     *      See Solmate's SafeTransferLib: https://github.com/transmissions11/solmate/blob/89365b880c4f3c786bdd453d4b8e8fe410344a69/src/utils/SafeTransferLib.sol#L63
+     *      See Solmate's SafeTransferLib: https://web.archive.org/web/20260131111608/https://github.com/transmissions11/solmate/blob/89365b880c4f3c786bdd453d4b8e8fe410344a69/src/utils/SafeTransferLib.sol#L63
      * 
      * @param _token The address of the ERC-20 token to transfer.
      * @param _to The recipient of the tokens.
@@ -410,7 +409,7 @@ contract Handoff is Ownable, Pausable, ReentrancyGuard, Request, EIP2612Request,
      *      Constructs the calldata manually and uses a low-level `call` for gas efficiency.
      *      This method ensures compatibility with a wide range of ERC-20 tokens, including 
      *      non-standard ones like USDT, which do not return any data on success.
-     *      See Solmate's SafeTransferLib: https://github.com/transmissions11/solmate/blob/89365b880c4f3c786bdd453d4b8e8fe410344a69/src/utils/SafeTransferLib.sol#L30
+     *      See Solmate's SafeTransferLib: https://web.archive.org/web/20260131111608/https://github.com/transmissions11/solmate/blob/89365b880c4f3c786bdd453d4b8e8fe410344a69/src/utils/SafeTransferLib.sol#L30
      * 
      * @param _token The address of the ERC-20 token to transfer.
      * @param _from The address to transfer tokens from.
